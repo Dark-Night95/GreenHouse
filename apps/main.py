@@ -1,10 +1,7 @@
 from fastapi import FastAPI, Request
-# from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.templating import Jinja2Templates
-
-# from fastapi.responses import HTMLResponse, FileResponse
-# from fastapi.templating import Jinja2Templates
+from .routers import plants
 
 
 app = FastAPI()
@@ -18,6 +15,19 @@ app.add_middleware(
 )
 
 templates= Jinja2Templates(directory="templates")
+
+
+app.include_router(
+    plants.router,
+    prefix="/plants",
+    tags=["plants"]
+)
+
+# app.include_router(
+#     sensors.router,
+#     prefix="/sensors",
+#     tags=["sensors"]
+# )
 
 @app.get("/")
 def home(request: Request):
