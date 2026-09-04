@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.templating import Jinja2Templates
-from .routers import plants
+from apps.routers import plants
 
 
 app = FastAPI()
