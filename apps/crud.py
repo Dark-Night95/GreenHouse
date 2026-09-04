@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from .models import Plant,PlantRequirement
+from .models import Plant,PlantRequirement,SensorData,Alert
 
 #these are for plants
 def create_plant(db:Session,plant_data):
@@ -80,6 +80,7 @@ def update_requirements(db:Session,plant_id:int,requirements_data):
     ).first()
     if requirement is None:
         return None
+    requirement.Plant_id=requirements_data.Plant_id
     requirement.Min_temp=requirements_data.Min_temp
     requirement.Max_temp=requirements_data.Max_temp
     requirement.Min_humid=requirements_data.Min_humid
@@ -89,3 +90,61 @@ def update_requirements(db:Session,plant_id:int,requirements_data):
     db.commit()
     db.refresh(requirement)
     return requirement
+
+# for sensor data
+def create_sensor_readings(db:Session,sensor_readings_data):
+    new_sensor_reading=SensorData(
+        Plant_id=sensor_readings_data.Plant_id,
+        Temperature=sensor_readings_data.Temperature,
+        Humidity=sensor_readings_data.Humidity,
+        Soil_moisture=sensor_readings_data.Soil_moisture,
+        Light=sensor_readings_data.Light,
+        Timestamp=sensor_readings_data.Timestamp,
+    )
+    db.add(new_sensor_reading)
+    db.commit()
+    db.refresh(new_sensor_reading)
+    return new_sensor_reading
+
+
+def get_sensor_readings(db:Session,plant_id:int):
+    return db.query(SensorData).filter(
+        SensorData.Plant_id==plant_id
+    ).all()
+
+# for alerts
+
+def create_alerts(db:Session,alerts_data):
+    new_alert_data=Alert(
+        Plant_id=alerts_data.plant_id,
+        Alert_type=alerts_data.alert_type,
+        Message=alerts_data.alert_message,
+        Time_stamp=alerts_data.alert_time,
+        Status=alerts_data.alert_status,
+    )
+    db.add(new_alert_data)
+    db.commit()
+    db.refresh(new_alert_data)
+    return new_alert_data
+
+def get_alerts(db:Session,plant_id:int):
+    return db.query(Alert).filter(
+        Alert.Plant_id==plant_id
+    ).all()
+
+
+def update_alerts(db:Session,plant_id:int,alerts_data):
+    alert=db.query(Alert).filter(
+        Alert.Plant_id==plant_id
+    ).first()
+    if alert is None:
+        return None
+    alert.Plant_id=alerts_data.plant_id
+    alert.Alert_type=alerts_data.alert_type
+    alert.Message=alerts_data.alert_message
+    alert.Time_stamp=alerts_data.alert_time
+    alert.Status=alerts_data.alert_status
+    db.commit()
+    db.refresh(alert)
+    return alert
+
