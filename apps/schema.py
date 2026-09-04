@@ -1,16 +1,15 @@
 from pydantic  import BaseModel,Field
 from typing import Annotated
 from datetime import date
+
+
+
 class CreatePlant(BaseModel):
-
-
-
-    ID:Annotated[int,Field(gt=0,title=' Plant Id',description='Id of the plant')]
     Name:Annotated[str,Field(max_length=30,title=' Plant Name',description='Name of the plant')]
     Plant_type:Annotated[str,Field(max_length=30,title=' Plant Type',description='Type of the plant')]
-    Location:Annotated[str,Field(max_length=55,title=' Plant Location',description='Location of the plant')]
+    Location:Annotated[str,Field(max_length=20,title=' Plant Location',description='Location of the plant')]
     Date_added:Annotated[date,Field(title=' Plant Date Added',description='Date the plant was added')]
-    Status:Annotated[str,Field(max_length=30,title=' Plant Status',description='Status of the plant')]
+    Status:Annotated[str,Field(max_length=15,title=' Plant Status',description='Status of the plant')]
 
 class PlantRequirementCreate(BaseModel):
     plant_id:Annotated[int,Field(gt=0,title=' Plant Id',description='Id of the plant')]
