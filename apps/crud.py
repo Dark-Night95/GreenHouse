@@ -16,15 +16,17 @@ def create_plant(db:Session,plant_data):
 
     return new_plant
 
-
+# get the plant id by manually searching it
 def get_plant(db: Session, plant_id: int):
     return db.query(Plant).filter(
         Plant.Id == plant_id
     ).first()
 
+#get all plants
 def get_plants(db:Session):
     return db.query(Plant).all()
 
+#update plant
 def update_plant(db: Session, plant_id: int, plant_data):
     plant = db.query(Plant).filter(
         Plant.Id == plant_id
@@ -40,7 +42,7 @@ def update_plant(db: Session, plant_id: int, plant_data):
     db.commit()
     db.refresh(plant)
     return plant
-
+#delete plant
 def delete_plant(db:Session,plant_id:int):
     plant=db.query(Plant).filter(
         Plant.Id==plant_id
@@ -52,8 +54,8 @@ def delete_plant(db:Session,plant_id:int):
     db.commit()
     return plant
 
-#tthese are for requirements
-
+#these are for requirements
+# create new requirements for plants
 def create_requirements(db:Session,requirements_data):
     new_requirement=PlantRequirement(
         Plant_id=requirements_data.Plant_id,
@@ -69,11 +71,14 @@ def create_requirements(db:Session,requirements_data):
     db.refresh(new_requirement)
     return new_requirement
 
+# get requirements by searching plant id
 def get_requirements(db:Session,plant_id:int):
     return db.query(PlantRequirement).filter(
         PlantRequirement.Plant_id==plant_id
     ).first()
 
+
+# update requirements
 def update_requirements(db:Session,plant_id:int,requirements_data):
     requirement=db.query(PlantRequirement).filter(
         PlantRequirement.Plant_id==plant_id
@@ -91,7 +96,9 @@ def update_requirements(db:Session,plant_id:int,requirements_data):
     db.refresh(requirement)
     return requirement
 
+
 # for sensor data
+# create new sensor data
 def create_sensor_readings(db:Session,sensor_readings_data):
     new_sensor_reading=SensorData(
         Plant_id=sensor_readings_data.Plant_id,
@@ -106,14 +113,16 @@ def create_sensor_readings(db:Session,sensor_readings_data):
     db.refresh(new_sensor_reading)
     return new_sensor_reading
 
-
+# get sensor data by searching plant id
 def get_sensor_readings(db:Session,plant_id:int):
     return db.query(SensorData).filter(
         SensorData.Plant_id==plant_id
     ).all()
 
-# for alerts
 
+
+# for alerts
+# create new alerts
 def create_alerts(db:Session,alerts_data):
     new_alert_data=Alert(
         Plant_id=alerts_data.plant_id,
@@ -127,12 +136,14 @@ def create_alerts(db:Session,alerts_data):
     db.refresh(new_alert_data)
     return new_alert_data
 
+
+# get alerts by searching plant id
 def get_alerts(db:Session,plant_id:int):
     return db.query(Alert).filter(
         Alert.Plant_id==plant_id
     ).all()
 
-
+# update alerts
 def update_alerts(db:Session,plant_id:int,alerts_data):
     alert=db.query(Alert).filter(
         Alert.Plant_id==plant_id
