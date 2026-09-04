@@ -1,32 +1,39 @@
-from collections.abc import Generator
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from ..database import SessionLocal
-from ..models import Plant
+
+from ..database import get_db
+from .. import crud
 from ..schema import CreatePlant
 
 router = APIRouter()
 
 
-def get_db() -> Generator[Session]:
-    session = SessionLocal()
-    try:
-        yield session
-    finally:
-        session.close()
-
-
 @router.get("/")
-def get_plants(session: Session = Depends(get_db)):
-    return session.query(Plant).all()
+def get_plants(db: Session = Depends(get_db)):
+    return crud.get_plants(db)
 
 
 @router.get("/{plant_id}")
-def get_plant(plant_id: int, session: Session = Depends(get_db)):
-    return session.query(Plant).filter(Plant.Id == plant_id).first()
+def get_plant(plant_id: int, db: Session = Depends(get_db)):
+    return crud.get_plant(db, plant_id)
 
 
+@router.post("/")
+def create_plant(
+        plant: CreatePlant,
+        db: Session = Depends(get_db)):
+    return crud.create_plant(db, plant)
 
-@router.post("/plants")
-def create_plant(plant:CreatePlant):
-    return plant
+@router.put("/{plant_id}")
+def update_plant(
+        plant_id: int,
+        plant: CreatePlant,
+        db: Session = Depends(get_db)):
+    return crud.update_plant(db, plant_id, plant)
+
+
+@router.delete("/{plant_id}")
+def delete_plant(
+        plant_id: int,
+        db: Session = Depends(get_db)):
+    return crud.delete_plant(db, plant_id)
