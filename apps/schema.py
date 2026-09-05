@@ -4,7 +4,6 @@ from typing import Annotated
 from datetime import date
 
 
-
 class CreatePlant(BaseModel):
     Name:Annotated[str,Field(max_length=30,title=' Plant Name',description='Name of the plant')]
     Plant_type:Annotated[str,Field(max_length=30,title=' Plant Type',description='Type of the plant')]
@@ -14,12 +13,12 @@ class CreatePlant(BaseModel):
 
 class PlantRequirementCreate(BaseModel):
     Plant_id:Annotated[int,Field(gt=0,title=' Plant Id',description='Id of the plant')]
-    Temp_min: Annotated[float,Field(title=' Min Temperature',description='Minimum temperature of plant')]
-    Temp_max:  Annotated[float,Field(title=' Max Temperature',description='Maximum temperature of plant')]
-    Humidity_min:  Annotated[float,Field(title=' Min Temperature',description='Minimum humidity of plant')]
-    Humidity_max: Annotated[float,Field(title=' Min Temperature',description='Maximum Humidity of plant')]
-    Light_min:  Annotated[float,Field(title=' Min Temperature',description='Minimum light of plant')]
-    Light_max:  Annotated[float,Field(title=' Min Temperature',description='Maximum Light of plant')]
+    Min_temp: Annotated[float,Field(title=' Min Temperature',description='Minimum temperature of plant')]
+    Max_temp:  Annotated[float,Field(title=' Max Temperature',description='Maximum temperature of plant')]
+    Min_humid:  Annotated[float,Field(title=' Min Temperature',description='Minimum humidity of plant')]
+    Max_humid: Annotated[float,Field(title=' Min Temperature',description='Maximum Humidity of plant')]
+    Min_light:  Annotated[float,Field(title=' Min Temperature',description='Minimum light of plant')]
+    Max_light:  Annotated[float,Field(title=' Min Temperature',description='Maximum Light of plant')]
 
 class SensorDataCreate(BaseModel):
     Plant_id:Annotated[int,Field(gt=0,title=' Plant Id',description='Id of the plant')]
