@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String,DateTime,Date
+from sqlalchemy import Column, Float, String,DateTime,Date,Integer
 from .database import Base
 
 class Plant(Base):
@@ -14,21 +14,21 @@ class PlantRequirement(Base):
     __tablename__="plant_requirements"
     Id=Column(Integer,primary_key=True,autoincrement=True)
     Plant_id=Column(Integer)
-    Min_temp=Column(Integer)
-    Max_temp=Column(Integer)
-    Min_humid=Column(Integer)
-    Max_humid=Column(Integer)
-    Min_light=Column(Integer)
-    Max_light=Column(Integer)
+    Min_temp=Column(Float)
+    Max_temp=Column(Float)
+    Min_humid=Column(Float)
+    Max_humid=Column(Float)
+    Min_light=Column(Float)
+    Max_light=Column(Float)
 
 class SensorData(Base):
     __tablename__="sensor_data"
     Id=Column(Integer,primary_key=True,autoincrement=True)
     Plant_id=Column(Integer)
-    Temperature=Column(Integer)
-    Humidity=Column(Integer)
-    Soil_moisture=Column(Integer)
-    Light=Column(Integer)
+    Temperature=Column(Float)
+    Humidity=Column(Float)
+    Soil_moisture=Column(Float)
+    Light=Column(Float)
     Timestamp=Column(DateTime)
 
 class Alert(Base):
