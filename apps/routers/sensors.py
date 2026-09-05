@@ -14,6 +14,6 @@ def create_sensor_reading(
     return crud.create_sensor_reading(db, data)
 
 @router.get("/{Id}")
-def get_sensor_readings(id: int, db: Session = Depends(get_db)):
+def get_sensor_readings(Id: int, db: Session = Depends(get_db)):
     return crud.get_sensor_reading(db, Id)
 
