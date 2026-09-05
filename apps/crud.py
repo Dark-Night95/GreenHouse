@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from .models import Plant,PlantRequirement,SensorData,Alert
+from datetime import datetime
 
 #these are for plants
 def create_plant(db:Session,plant_data):
@@ -99,14 +100,15 @@ def update_requirements(db:Session,plant_id:int,requirements_data):
 
 # for sensor data
 # create new sensor data
-def create_sensor_readings(db:Session,sensor_readings_data):
+def create_sensor_reading(db:Session,sensor_readings_data):
     new_sensor_reading=SensorData(
         Plant_id=sensor_readings_data.Plant_id,
         Temperature=sensor_readings_data.Temperature,
         Humidity=sensor_readings_data.Humidity,
         Soil_moisture=sensor_readings_data.Soil_moisture,
         Light=sensor_readings_data.Light,
-        Timestamp=sensor_readings_data.Timestamp,
+        #Timestamp=sensor_readings_data.Timestamp,
+        Timestamp=datetime.now(),
     )
     db.add(new_sensor_reading)
     db.commit()
@@ -114,10 +116,10 @@ def create_sensor_readings(db:Session,sensor_readings_data):
     return new_sensor_reading
 
 # get sensor data by searching plant id
-def get_sensor_readings(db:Session,plant_id:int):
+def get_sensor_reading(db:Session,plant_id:int):
     return db.query(SensorData).filter(
         SensorData.Plant_id==plant_id
-    ).all()
+    ).first()
 
 
 
@@ -128,7 +130,8 @@ def create_alerts(db:Session,alerts_data):
         Plant_id=alerts_data.plant_id,
         Alert_type=alerts_data.alert_type,
         Message=alerts_data.alert_message,
-        Time_stamp=alerts_data.alert_time,
+        #Time_stamp=alerts_data.alert_time,
+        Time_stamp=datetime.now(),
         Status=alerts_data.alert_status,
     )
     db.add(new_alert_data)
