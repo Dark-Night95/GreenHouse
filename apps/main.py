@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.templating import Jinja2Templates
-from apps.routers import plants,sensors
+from apps.routers import plants,sensors,requirements
 
 
 app = FastAPI()
@@ -27,6 +27,12 @@ app.include_router(
     sensors.router,
     prefix="/sensors",
     tags=["sensors"]
+)
+
+app.include_router(
+    requirements.router,
+    prefix="/requirements",
+    tags=["requirements"]
 )
 
 @app.get("/")
