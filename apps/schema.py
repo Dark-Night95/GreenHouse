@@ -27,11 +27,9 @@ class SensorDataCreate(BaseModel):
     Humidity:  Annotated[float,Field(title=' Humidity',description='Humidity of plant')]
     Soil_moisture: Annotated[float,Field(title=' Soil Moisture',description='Soil Moisture of plant')]
     Light:  Annotated[float,Field(title=' Light',description='Light of plant')]
-    #Timestamp: Annotated[date,Field(title=' Timestamp',description='Timestamp of plant')]
 
 class AlertCreate(BaseModel):
     Plant_id:Annotated[int,Field(gt=0,title=' Plant Id',description='Id of the plant')]
     Alert_type:Annotated[str,Field(max_length=30,title=' Alert Type',description='Type of the alert')]
     Message:Annotated[str,Field(max_length=100,title=' Alert Message',description='Message of the alert')]
-    #Timestamp: Annotated[datetime,Field(title=' Timestamp',description='Timestamp of alert')]
     Status:Annotated[str,Field(max_length=30,title=' Alert Status',description='Status of the alert')]
