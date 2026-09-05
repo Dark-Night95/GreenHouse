@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-
 from ..database import get_db
 from .. import crud
 from ..schema import CreatePlant
@@ -13,9 +12,9 @@ def get_plants(db: Session = Depends(get_db)):
     return crud.get_plants(db)
 
 
-@router.get("/{plant_id}")
-def get_plant(plant_id: int, db: Session = Depends(get_db)):
-    return crud.get_plant(db, plant_id)
+@router.get("/{id}")
+def get_plant(id: int, db: Session = Depends(get_db)):
+    return crud.get_plant(db, id)
 
 
 @router.post("/")
@@ -24,16 +23,16 @@ def create_plant(
         db: Session = Depends(get_db)):
     return crud.create_plant(db, plant)
 
-@router.put("/{plant_id}")
+@router.put("/{id}")
 def update_plant(
-        plant_id: int,
+        id: int,
         plant: CreatePlant,
         db: Session = Depends(get_db)):
-    return crud.update_plant(db, plant_id, plant)
+    return crud.update_plant(db,id, plant)
 
 
-@router.delete("/{plant_id}")
+@router.delete("/{id}")
 def delete_plant(
-        plant_id: int,
+        id: int,
         db: Session = Depends(get_db)):
-    return crud.delete_plant(db, plant_id)
+    return crud.delete_plant(db, id)
