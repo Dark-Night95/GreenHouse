@@ -1,27 +1,19 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-
-from models import SensorData
-from ..database import  get_db
-from .. import crud
-from ..schema import SensorDataCreate
+from apps.database import get_db
+from apps import crud
+from apps.schema import SensorDataCreate
 
 router = APIRouter()
 
-@router.post("/sensor_data")
-def create_sensor_data(
+@router.post("/")
+def create_sensor_reading(
         data: SensorDataCreate,
-        db: Session = Depends(get_db)
+        db: Session = Depends(get_db),
 ):
-    new_data = SensorData(
-        Plant_id=data.plant_id,
-        Temperature=data.temperature,
-        Humidity=data.humidity,
-        Soil_moisture=data.soil_moisture,
-        Light=data.light,
-        Timestamp=data.timestamp,
-    )
-    db.add(new_data)
-    db.commit()
-    db.refresh(new_data)
-    return new_data
+    return crud.create_sensor_reading(db, data)
+
+@router.get("/{id}")
+def get_sensor_readings(id: int, db: Session = Depends(get_db)):
+    return crud.get_sensor_reading(db, id)
+
