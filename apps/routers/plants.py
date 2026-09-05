@@ -12,9 +12,9 @@ def get_plants(db: Session = Depends(get_db)):
     return crud.get_plants(db)
 
 
-@router.get("/{id}")
-def get_plant(id: int, db: Session = Depends(get_db)):
-    return crud.get_plant(db, id)
+@router.get("/{Id}")
+def get_plant(Id: int, db: Session = Depends(get_db)):
+    return crud.get_plant(db, Id)
 
 
 @router.post("/")
@@ -23,16 +23,16 @@ def create_plant(
         db: Session = Depends(get_db)):
     return crud.create_plant(db, plant)
 
-@router.put("/{id}")
+@router.put("/{Id}")
 def update_plant(
-        id: int,
+        Id: int,
         plant: CreatePlant,
         db: Session = Depends(get_db)):
-    return crud.update_plant(db,id, plant)
+    return crud.update_plant(db,Id, plant)
 
 
-@router.delete("/{id}")
+@router.delete("/{Id}")
 def delete_plant(
-        id: int,
+        Id: int,
         db: Session = Depends(get_db)):
-    return crud.delete_plant(db, id)
+    return crud.delete_plant(db, Id)
