@@ -37,5 +37,6 @@ class Alert(Base):
     Plant_id = Column(Integer)
     Alert_type = Column(String(50))
     Message = Column(String(80))
+    Severity = Column(String(20))
     Time_stamp = Column(DateTime)
     Status = Column(String(20))

@@ -1,4 +1,3 @@
-
 from pydantic  import BaseModel,Field
 from typing import Annotated
 from datetime import date
@@ -31,4 +30,11 @@ class AlertCreate(BaseModel):
     Plant_id:Annotated[int,Field(gt=0,title=' Plant Id',description='Id of the plant')]
     Alert_type:Annotated[str,Field(max_length=30,title=' Alert Type',description='Type of the alert')]
     Message:Annotated[str,Field(max_length=100,title=' Alert Message',description='Message of the alert')]
+    Severity:Annotated[str,Field(max_length=30,title=' Alert Severity',description='Severity of the alert')]
+
+class AlertUpdate(AlertCreate):
+    Id:Annotated[int,Field(gt=0,title=' Alert Id',description='Id of the alert')]
     Status:Annotated[str,Field(max_length=30,title=' Alert Status',description='Status of the alert')]
+
+class Config:
+    from_attributes=True
