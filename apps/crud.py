@@ -125,14 +125,13 @@ def get_sensor_reading(db:Session,plant_id:int):
 
 # for alerts
 # create new alerts
-def create_alerts(db:Session,alerts_data):
+def create_alert(db:Session,alerts_data):
     new_alert_data=Alert(
-        Plant_id=alerts_data.plant_id,
-        Alert_type=alerts_data.alert_type,
-        Message=alerts_data.alert_message,
-        #Time_stamp=alerts_data.alert_time,
+        Plant_id=alerts_data.Plant_id,
+        Alert_type=alerts_data.Alert_type,
+        Message=alerts_data.Message,
         Time_stamp=datetime.now(),
-        Status=alerts_data.alert_status,
+        Severity=alerts_data.Severity,
     )
     db.add(new_alert_data)
     db.commit()
@@ -141,13 +140,16 @@ def create_alerts(db:Session,alerts_data):
 
 
 # get alerts by searching plant id
-def get_alerts(db:Session,plant_id:int):
+def get_alert(db:Session,plant_id:int):
     return db.query(Alert).filter(
         Alert.Plant_id==plant_id
-    ).all()
+    ).first()
+
+def get_alerts(db: Session):
+    return db.query(Alert).all()
 
 # update alerts
-def update_alerts(db:Session,plant_id:int,alerts_data):
+def update_alert(db:Session,plant_id:int,alerts_data):
     alert=db.query(Alert).filter(
         Alert.Plant_id==plant_id
     ).first()
