@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.templating import Jinja2Templates
-from apps.routers import plants,sensors,requirements
+from apps.routers import plants,sensors,requirements,alerts
 
 
 app = FastAPI()
@@ -15,6 +15,12 @@ app.add_middleware(
 )
 
 templates= Jinja2Templates(directory="templates")
+
+app.include_router(
+    alerts.router,
+    prefix="/alerts",
+    tags=["alerts"]
+)
 
 
 app.include_router(
