@@ -2,7 +2,7 @@ def check_greenhouse(sensor_data, plant_requirements):
 
     problems = []
 
-    if sensor_data.temperature > plant_requirements.Max_temp:
+    if sensor_data.Temperature > plant_requirements.Max_temp:
         problems.append({
             "type": "temperature_high",
             "message": "Temperature is too high",
@@ -19,14 +19,14 @@ def check_greenhouse(sensor_data, plant_requirements):
     if sensor_data.Humidity < plant_requirements.Min_humid:
         problems.append({
             "type": "humidity_low",
-            "message": "Soil moisture is too low",
+            "message": "Humidity is too low",
             "severity": "WARNING"
         })
 
     if sensor_data.Humidity > plant_requirements.Max_humid:
         problems.append({
             "type": "humidity_high",
-            "message": "humidity is too high",
+            "message": "Humidity is too high",
             "severity": "WARNING"
         })
 
@@ -36,6 +36,7 @@ def check_greenhouse(sensor_data, plant_requirements):
             "message": "Light level is too low",
             "severity": "WARNING"
         })
+
     if sensor_data.Light > plant_requirements.Max_light:
         problems.append({
             "type": "light_high",
