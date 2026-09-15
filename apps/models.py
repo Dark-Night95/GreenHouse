@@ -28,6 +28,7 @@ class SensorData(Base):
     Temperature=Column(Float)
     Humidity=Column(Float)
     Soil_moisture=Column(Float)
+    water_required=Column(Integer)
     Light=Column(Float)
     Timestamp=Column(DateTime)
 
