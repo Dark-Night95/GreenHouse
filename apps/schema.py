@@ -23,7 +23,6 @@ class SensorDataCreate(BaseModel):
     Plant_id:Annotated[int,Field(gt=0,title=' Plant Id',description='Id of the plant')]
     Temperature: Annotated[float,Field(title=' Temperature',description='Temperature of plant')]
     Humidity:  Annotated[float,Field(title=' Humidity',description='Humidity of plant')]
-    Soil_moisture: Annotated[float,Field(title=' Soil Moisture',description='Soil Moisture of plant')]
     Light:  Annotated[float,Field(title=' Light',description='Light of plant')]
 
 class AlertCreate(BaseModel):

@@ -26,13 +26,11 @@ def get_dashboard(db: Session = Depends(get_db)):
 
     temperature = None
     humidity = None
-    soil_moisture = None
     light = None
 
     if latest_sensor:
         temperature = latest_sensor.Temperature
         humidity = latest_sensor.Humidity
-        soil_moisture = latest_sensor.Soil_moisture
         light = latest_sensor.Light
 
     # Healthy and warning plants
@@ -71,7 +69,6 @@ def get_dashboard(db: Session = Depends(get_db)):
         "warning_plants": warning_plants,
         "temperature": temperature,
         "humidity": humidity,
-        "soil_moisture": soil_moisture,
         "light": light,
         "active_alerts": active_alerts
     }

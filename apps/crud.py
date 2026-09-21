@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from .models import Plant,PlantRequirement,SensorData,Alert
+from apps.models import Plant,PlantRequirement,SensorData,Alert
 from datetime import datetime
 
 #these are for plants
@@ -105,7 +105,6 @@ def create_sensor_reading(db:Session,sensor_readings_data):
         Plant_id=sensor_readings_data.Plant_id,
         Temperature=sensor_readings_data.Temperature,
         Humidity=sensor_readings_data.Humidity,
-        Soil_moisture=sensor_readings_data.Soil_moisture,
         Light=sensor_readings_data.Light,
         #Timestamp=sensor_readings_data.Timestamp,
         Timestamp=datetime.now(),
