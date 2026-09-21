@@ -8,7 +8,6 @@ while True:
         "plant_id": 1,
         "temperature": random.uniform(25, 35),
         "humidity": random.uniform(50, 80),
-        "soil_moisture": random.uniform(30, 60),
         "light_intensity": random.uniform(0.1, 5.0)
     }
     response = requests.post(
