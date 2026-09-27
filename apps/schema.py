@@ -35,5 +35,12 @@ class AlertUpdate(AlertCreate):
     Id:Annotated[int,Field(gt=0,title=' Alert Id',description='Id of the alert')]
     Status:Annotated[str,Field(max_length=30,title=' Alert Status',description='Status of the alert')]
 
+
+
+class PredictionRequest(BaseModel):
+    Temperature:Annotated[float,Field(title="Plant temperature",description="Temp of the plant")]
+    Humidity:Annotated[float,Field(title="Plant humidity",description="Humidity of plant")]
+    Light: Annotated[float, Field(title="Plant Light", description="Light of the plant")]
+
 class Config:
     from_attributes=True
