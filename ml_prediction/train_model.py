@@ -6,7 +6,7 @@ from sklearn.metrics import classification_report
 import joblib
 
 
-df = pd.read_csv("data/prepared_dataset.csv")
+df = pd.read_csv("prepared_dataset.csv")
 
 print(df.head())
 x =df[["Temperature","Humidity","Light"]]

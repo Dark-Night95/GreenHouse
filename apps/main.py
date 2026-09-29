@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from apps.routers import plants, sensors, requirements, alerts, dashboard
+from apps.routers import plants, sensors, requirements, alerts, dashboard ,prediction
 
 
 app = FastAPI(
@@ -33,6 +33,12 @@ app.include_router(
     alerts.router,
     prefix="/alerts",
     tags=["Alerts"]
+)
+
+app.include_router(
+    prediction.router,
+    prefix="/prediction",
+    tags=["Prediction"]
 )
 
 app.include_router(

@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import os
 from apps.database import engine
 
@@ -56,7 +55,7 @@ prepared_data=df[[
     "water_required"
 ]]
 
-data_file = "data/prepared_dataset.csv"
+data_file = "prepared_dataset.csv"
 prepared_data.to_csv(data_file, index=False)
 
 print("\nData saved to:", data_file)
