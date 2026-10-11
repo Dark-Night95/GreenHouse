@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Float, String,DateTime,Date,Integer
+from sqlalchemy import Column, Float, String,DateTime,Date,Integer,Computed
 from .database import Base
 
 class Plant(Base):
@@ -27,7 +27,7 @@ class SensorData(Base):
     Plant_id=Column(Integer)
     Temperature=Column(Float)
     Humidity=Column(Float)
-    water_required=Column(Integer)
+    water_required=Column(Integer,Computed("CASE WHEN Humidity < 40 THEN 1 ELSE 0 END", persisted=True))
     Light=Column(Float)
     Timestamp=Column(DateTime)
 
