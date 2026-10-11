@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from ..database import get_db
-from ..models import Plant, PlantRequirement, SensorData, Alert
-from ..services.greenhouse_logic import check_greenhouse
+from ..models import Plant, SensorData, Alert
 
 
 router = APIRouter()
@@ -11,13 +10,16 @@ router = APIRouter()
 @router.get("/")
 def get_dashboard(db: Session = Depends(get_db)):
 
-    # Total plants
-    total_plants = db.query(Plant).count()
-
-    # Active alerts
-    active_alerts = db.query(Alert).filter(
-        Alert.Status == "ACTIVE"
-    ).count()
+    plants = db.query(Plant).all()
+    total_plants = len(plants)
+    latest_alerts = db.query(Alert).order_by(
+        Alert.Time_stamp.desc(),
+        Alert.Id.desc(),
+    ).limit(5).all()
+    alert_plant_ids = {alert.Plant_id for alert in latest_alerts}
+    warning_plants = sum(plant.Id in alert_plant_ids for plant in plants)
+    healthy_plants = total_plants - warning_plants
+    active_alerts = sum(alert.Status == "ACTIVE" for alert in latest_alerts)
 
     # Latest sensor reading
     latest_sensor = db.query(SensorData).order_by(
@@ -32,36 +34,6 @@ def get_dashboard(db: Session = Depends(get_db)):
         temperature = latest_sensor.Temperature
         humidity = latest_sensor.Humidity
         light = latest_sensor.Light
-
-    # Healthy and warning plants
-    healthy_plants = 0
-    warning_plants = 0
-
-    plants = db.query(Plant).all()
-
-    for plant in plants:
-
-        requirement = db.query(PlantRequirement).filter(
-            PlantRequirement.Plant_id == plant.Id
-        ).first()
-
-        sensor = db.query(SensorData).filter(
-            SensorData.Plant_id == plant.Id
-        ).order_by(
-            SensorData.Timestamp.desc()
-        ).first()
-
-        if requirement and sensor:
-
-            problems = check_greenhouse(
-                sensor,
-                requirement
-            )
-
-            if len(problems) == 0:
-                healthy_plants += 1
-            else:
-                warning_plants += 1
 
     return {
         "total_plants": total_plants,
