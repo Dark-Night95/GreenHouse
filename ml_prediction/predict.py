@@ -41,14 +41,10 @@ def predict_water_requirement(
     # Get confidence
     confidence = float(max(probability[0]))
 
-    # return {
-    #     "water_required": result,
-    #     "confidence": confidence
-    # }
-    if result == 1:
-        return {"Water is required":confidence}
-    else:
-        return{"Water is not required":confidence}
+    return {
+        "decision": "Water is required" if result == 1 else "Water is not required",
+        "confidence": confidence,
+    }
 
 
 # Test
