@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from apps.models import Plant,PlantRequirement,SensorData,Alert
 from datetime import datetime
+from apps.services.greenhouse_logic import sync_plant_condition
 
 #these are for plants
 def create_plant(db:Session,plant_data):
@@ -106,10 +107,26 @@ def create_sensor_reading(db:Session,sensor_readings_data):
         Temperature=sensor_readings_data.Temperature,
         Humidity=sensor_readings_data.Humidity,
         Light=sensor_readings_data.Light,
-        #Timestamp=sensor_readings_data.Timestamp,
         Timestamp=datetime.now(),
     )
     db.add(new_sensor_reading)
+    db.flush()
+
+    plant = db.query(Plant).filter(
+        Plant.Id == new_sensor_reading.Plant_id
+    ).first()
+    requirement = db.query(PlantRequirement).filter(
+        PlantRequirement.Plant_id == new_sensor_reading.Plant_id
+    ).first()
+
+    if plant and requirement:
+        sync_plant_condition(
+            db,
+            plant,
+            new_sensor_reading,
+            requirement,
+        )
+
     db.commit()
     db.refresh(new_sensor_reading)
     return new_sensor_reading
@@ -145,20 +162,24 @@ def get_alert(db:Session,plant_id:int):
     ).first()
 
 def get_alerts(db: Session):
-    return db.query(Alert).all()
+    return db.query(Alert).order_by(
+        Alert.Time_stamp.desc(),
+        Alert.Id.desc(),
+    ).limit(5).all()
 
 # update alerts
-def update_alert(db:Session,plant_id:int,alerts_data):
+def update_alert(db:Session,alert_id:int,alerts_data):
     alert=db.query(Alert).filter(
-        Alert.Plant_id==plant_id
+        Alert.Id==alert_id
     ).first()
     if alert is None:
         return None
-    alert.Plant_id=alerts_data.plant_id
-    alert.Alert_type=alerts_data.alert_type
-    alert.Message=alerts_data.alert_message
-    alert.Time_stamp=alerts_data.alert_time
-    alert.Status=alerts_data.alert_status
+    alert.Plant_id=alerts_data.Plant_id
+    alert.Alert_type=alerts_data.Alert_type
+    alert.Message=alerts_data.Message
+    alert.Severity=alerts_data.Severity
+    alert.Time_stamp=datetime.now()
+    alert.Status=alerts_data.Status
     db.commit()
     db.refresh(alert)
     return alert
